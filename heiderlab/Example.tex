@@ -1,0 +1,201 @@
+\documentclass[encoding=utf8,german]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{here}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{mwe}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{lipsum}
+\usepackage{authblk}
+\usepackage{svg}
+\usepackage[onehalfspacing]{setspace}
+\usepackage[version=4]{mhchem}
+\usepackage[german]{babel}
+\usepackage[ddmmyyyy]{datetime}
+\renewcommand{\dateseparator}{.}
+\usepackage{pdfpages}
+\usepackage{csquotes}
+\usepackage{microtype}
+\setcounter{secnumdepth}{5}
+\usepackage{acronym}
+\usepackage{textcomp}
+\usepackage[version=4]{mhchem}
+\usepackage{todonotes}
+
+
+%imports for C code in latex
+\usepackage{xcolor}
+\usepackage{listings}
+
+
+
+% Change language here
+\usepackage[
+    backend=biber,
+    language=english,
+    bibstyle=numeric,
+    citestyle=ieee,
+    url=true]{biblatex}
+
+% You need to have a file called "doc.bib" which contains the articles you want to cite in bibtex format
+\bibliography{doc}
+\addbibresource{doc.bib}
+
+%\pagestyle(headings)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+% Kein Punkt hinter den Kapitelnummern
+%\renewcommand\sectionmark[1]{%
+%   \markright{\thesection\ #1}}
+   
+%\renewcommand{\thechapter}{\arabic{chapter}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% verlinkt Inhaltsverzeichnis und Zitate etc
+\usepackage[hidelinks]{hyperref}
+
+% für Einheiten
+\usepackage[output-decimal-marker={,},detect-weight=true]{siunitx}
+\sisetup{separate-uncertainty} % Messunsicherheiten mit +-
+
+% Zitate im Verzeichnis der Bilder weg
+\usepackage{etoolbox}
+\makeatletter
+\let\oldcite\cite
+\pretocmd{\listoffigures}{\def\cite{\ignorespaces\@gobble}}{}{}
+\apptocmd{\listoffigures}{\let\cite\oldcite}{}{}
+\makeatother
+
+% Absätze
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.2ex}
+
+\sloppy % avoid writing over linebreak
+
+
+
+
+\begin{document}
+\mbox{}
+%\thispagestyle{empty}
+%\newpage
+\hoffset=5mm
+\thispagestyle{empty}
+
+\begin{center}
+%\newpage
+	\bigskip \bigskip \bigskip 
+	%\includegraphics*[scale=1.5]{Bilder/marburg_logo} \\
+	\vspace*{0.8cm}
+	{\huge \textbf{Philipps-Universität Marburg}} \\
+	\bigskip \bigskip \bigskip \bigskip
+	{ \textbf{Fachbereich Mathematik und Informatik }} \\
+	{{Informatik in der Biomedizin}} \\
+	\bigskip \bigskip \bigskip
+	{ \textbf{Abschlussarbeit im Bachelorstudiengang Informatik}} \\
+	\bigskip \bigskip \bigskip 
+	{ Bachelorarbeit von} \\
+	\bigskip 
+	{\huge Your Name} \\
+	\bigskip 
+	{ Matr.-Nr. 3345823} \\
+	\bigskip \bigskip \bigskip \bigskip
+	{ \huge \textbf{Title of your work}} \\
+	\bigskip \bigskip
+	{{zur Erlangung des akademischen Grades des Bachelor of Science der Bioinformatik}} \\
+	\bigskip \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip
+\end{center}
+
+\begin{flushleft}
+	\text{Betreuer:\quad\quad\quad\quad Prof. Dr. Dominik Heider} \\
+	\text{Abgabedatum:\quad\,\, 14.02.2023}
+
+\end{flushleft}
+
+\newpage
+
+
+\thispagestyle{empty}
+\noindent 
+\begin{centering}
+\huge \textbf{Selbstständigkeitserklärung} \\ 
+\end{centering}
+\bigskip \bigskip 
+\bigskip 
+Hiermit versichere ich, \textbf{Your Name}, dass ich die vorliegende Arbeit selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe. Alle Ausführungen, die fremden Quellen wörtlich oder sinngemäß entnommen wurden, sind kenntlich gemacht.\\\\
+{\noindent {Marburg, den }}\\\\\\\\\\\\
+{\noindent \textit{(Your Name)}}
+
+
+\newpage
+\thispagestyle{empty}
+\noindent
+\begin{centering}
+    \huge\textbf{Zusammenfassung}
+\end{centering}
+\bigskip\newline
+German abstract
+
+
+\bigskip\bigskip
+\begin{centering}
+    \huge\textbf{Abstract}
+\end{centering}
+\bigskip\newline
+English abstract
+
+\newpage
+% Table of contents
+\pagenumbering{gobble}
+\tableofcontents
+\clearpage
+
+\newpage
+
+% Table of figures
+\listoffigures
+\newpage
+\listoftables
+\newpage
+\lstlistoflistings
+\newpage
+
+\pagenumbering{arabic}
+
+%Content
+\chapter{Introduction}
+\chapter{Background}
+\chapter{Materials and Methods}
+\chapter{Results}
+\chapter{Conclusion}
+\clearpage
+
+
+
+\pagenumbering{Roman}
+
+%% Bibliography
+\phantomsection % für korrekten Link im Inhaltsverzeichnis
+\addcontentsline{toc}{chapter}{\bibname}
+\setcounter{page}{1}
+\printbibliography\clearpage
+
+
+%% Anhang
+%\phantomsection
+%\addcontentsline{toc}{chapter}{\appendixname}
+\appendix
+\chapter{Appendix}\clearpage
+
+
+
+\end{document}
