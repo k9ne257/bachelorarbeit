@@ -1,0 +1,31 @@
+= Density-Based Uncertainty Estimation for Calibrated Predictions
+Aaron Fey <aaron.frey@uni-duessedlorf.de>
+1st Chair: Univ.-Prof. Dr. Dominik Heider 
+2nd Chair: Univ.-Prof. Dr. Klau
+
+
+== Overview
+
+This project implements a method for density-based uncertainty estimation in machine learning models. The approach quantifies prediction certainty based on the density around data points and integrates with various ML algorithms to enhance model reliability.
+
+== Features
+
+- Density map generation using Gaussian mixture models and kernel density estimation.
+- Integration with logistic regression, random forest, and other ML models.
+- Uncertainty quantification and visualization of prediction confidence.
+- Evaluation of uncertainty measures and comparison with traditional methods.
+
+== Requirements
+
+- Python 3.7 or higher
+- NumPy
+- Pandas
+- Scikit-learn
+- Matplotlib
+- [Additional dependencies, if any]
+
+== Installation
+
+Clone the repository:
+
+git clone https://github.com/yourusername/your-repository.git
