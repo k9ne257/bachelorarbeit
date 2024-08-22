@@ -1,6 +1,8 @@
 = Density-Based Uncertainty Estimation for Calibrated Predictions
 Aaron Fey <aaron.frey@uni-duessedlorf.de>
-v1.0, August 2024
+1st Chair: Univ.-Prof. Dr. Dominik Heider 
+2nd Chair: Univ.-Prof. Dr. Klau
+
 
 == Overview
 
@@ -25,3 +27,5 @@ This project implements a method for density-based uncertainty estimation in mac
 == Installation
 
 Clone the repository:
+
+git clone https://github.com/yourusername/your-repository.git
