@@ -14,3 +14,9 @@ keras==2.14.0
 scipy==1.11.1
 torch==2.0.1
 pytorch-lightning==2.1.0
+
+# FastAPI for building APIs
+fastapi==0.103.1
+
+# ASGI server for FastAPI
+uvicorn==0.23.1

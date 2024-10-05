@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../probailix/.idea/probabiliX.iml" filepath="$PROJECT_DIR$/../probailix/.idea/probabiliX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/probabiliX.iml" filepath="$PROJECT_DIR$/.idea/probabiliX.iml" />
     </modules>
   </component>
 </project>

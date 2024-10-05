@@ -22,4 +22,4 @@ ENV PYTHONPATH="/code/src:${PYTHONPATH}"
 # main Python entry point, if neccessary
 # CMD ["python", "./src/models/predict_model.py"]
 
-EXPOSE 8080
+EXPOSE 8000

@@ -1,0 +1,28 @@
+
+== Uncertainty-based estimation for calibrated systems
+
+The main contributions of this project to the thesis are:
+
+- The development of a density-based uncertainty estimation method tailored to calibrated systems.
+- A comprehensive evaluation of the method's effectiveness using real-world datasets.
+- A detailed comparison of computational trade-offs with traditional uncertainty estimation methods.
+
+The results and insights from this research are documented in the accompanying thesis, which can be found in the file `../bachlorarbeit.pdf`.
+
+== Directory Breakdown
+
+- `data/`: Datasets used in the project.
+- `docs/`: Contains thesis-related documentation, including figures and tables.
+- `models/`: Stores the machine learning models and results.
+- `notebooks/`: Jupyter notebooks used for analysis and experiments.
+- `references/`: External references and research papers.
+- `reports/`: Generated reports and visualizations.
+- `src/`: All source code for data processing, model training, and evaluation.
+
+== License
+
+not yet decided
+
+== Contact
+
+For any questions regarding the thesis or this repository, please contact me at `aaron.frey@uni-duesseldorf.com`.
