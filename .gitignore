@@ -1,6 +1,13 @@
 *.zip
 models/data/**
 
+
+.idea/
+/.tmp.driveupload/
+probailix/out/
+
+*.gdoc
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
