@@ -185,30 +185,59 @@ class uqXModel:
         plt.legend()
         plt.show()
 
-    def plot_density_with_pca(X, title="Data Density", bandwidth=1.0):
+    def plot_density_with_pca(self,X):
         """
         Reduce data to 1D using PCA and plot density.
         """
-        # Reduce to 1D
+
+
+        # Ensure X is a numpy array or similar
+        # if not isinstance(X, (np.ndarray, list)):
+        #     raise TypeError("Input data must be a numerical array or list.")
+
+        # Reduce to 1D using PCA
         pca = PCA(n_components=1)
-        X_pca = pca.fit_transform(X)
+        X_pca = pca.fit_transform(X[:1000])  # Test with a subset
 
         # Fit Kernel Density Estimation
-        kde = KernelDensity(kernel='gaussian', bandwidth=bandwidth).fit(X_pca)
+        kde = KernelDensity(kernel='gaussian', bandwidth=1.0).fit(X_pca)
 
-        # Generate values for plotting
+        # Generate values for density plot
         X_d = np.linspace(X_pca.min(), X_pca.max(), 1000).reshape(-1, 1)
         density = np.exp(kde.score_samples(X_d))
 
-        # Plot the density
-        plt.figure(figsize=(8, 6))
+        # Plot the results
+        plt.figure(figsize=(15, 6))
         plt.plot(X_d, density, label='Density')
         plt.scatter(X_pca, np.zeros_like(X_pca), alpha=0.5, label='Data Points', color='red')
-        plt.title(title)
+        plt.title("PCA-based Density Plot for MNIST Subset")
         plt.legend()
         plt.show()
 
-    def save_model(path="models/trained_model"):
+        # # Ensure X is a numpy array or similar
+        # if not isinstance(X, (np.ndarray, list)):
+        #     raise TypeError("Input data must be a numerical array or list.")
+        #
+        # # Reduce to 1D
+        # pca = PCA(n_components=1)
+        # X_pca = pca.fit_transform(X)
+        #
+        # # Fit Kernel Density Estimation
+        # kde = KernelDensity(kernel='gaussian', bandwidth=bandwidth).fit(X_pca)
+        #
+        # # Generate values for plotting
+        # X_d = np.linspace(X_pca.min(), X_pca.max(), 1000).reshape(-1, 1)
+        # density = np.exp(kde.score_samples(X_d))
+        #
+        # # Plot the density
+        # plt.figure(figsize=(8, 6))
+        # plt.plot(X_d, density, label='Density')
+        # plt.scatter(X_pca, np.zeros_like(X_pca), alpha=0.5, label='Data Points', color='red')
+        # plt.title(title)
+        # plt.legend()
+        # plt.show()
+
+    def save_model(self, path="models/trained_model"):
         """
         Save the trained model(s) for TensorFlow MLOps deployment.
         """
