@@ -6,9 +6,9 @@ matplotlib==3.7.2
 seaborn==0.12.2
 
 # Libraries for uncertainty estimation and calibration
-tensorflow==2.14.0
-tensorflow-probability==0.21.0
-keras==2.14.0
+tensorflow==2.17.0
+tensorflow-probability[tf]==0.24.0
+#keras==3.2.0
 
 # Optional density-based methods
 scipy==1.11.1
