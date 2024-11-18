@@ -5,6 +5,7 @@ import tensorflow_probability as tfp
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
+from sklearn.decomposition import PCA
 
 class uqXModel:
 
@@ -169,7 +170,7 @@ class uqXModel:
 
         return mean_prediction, variance_prediction
 
-    def plot_density(self, X, title="Data Density", bandwidth=1.0):
+    def plot_density(X, title="Data Density", bandwidth=1.0):
         """
         Plot the density of data points using Kernel Density Estimation (KDE).
         """
@@ -184,7 +185,30 @@ class uqXModel:
         plt.legend()
         plt.show()
 
-    def save_model(self, path="models/trained_model"):
+    def plot_density_with_pca(X, title="Data Density", bandwidth=1.0):
+        """
+        Reduce data to 1D using PCA and plot density.
+        """
+        # Reduce to 1D
+        pca = PCA(n_components=1)
+        X_pca = pca.fit_transform(X)
+
+        # Fit Kernel Density Estimation
+        kde = KernelDensity(kernel='gaussian', bandwidth=bandwidth).fit(X_pca)
+
+        # Generate values for plotting
+        X_d = np.linspace(X_pca.min(), X_pca.max(), 1000).reshape(-1, 1)
+        density = np.exp(kde.score_samples(X_d))
+
+        # Plot the density
+        plt.figure(figsize=(8, 6))
+        plt.plot(X_d, density, label='Density')
+        plt.scatter(X_pca, np.zeros_like(X_pca), alpha=0.5, label='Data Points', color='red')
+        plt.title(title)
+        plt.legend()
+        plt.show()
+
+    def save_model(path="models/trained_model"):
         """
         Save the trained model(s) for TensorFlow MLOps deployment.
         """
