@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
 from sklearn.decomposition import PCA
 
-class uqXModel:
+class uqXEpisticModel:
 
     def __init__(self, n_ensemble_models=3):
         """
