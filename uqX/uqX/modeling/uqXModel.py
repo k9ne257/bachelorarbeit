@@ -49,49 +49,64 @@ class uqXModel:
         return self.model
 
     def _apply_bayes_by_backprop(self, X_train, y_train, X_val, y_val):
-        """
-        Train a Bayesian Neural Network using Bayes by Backprop (Variational Inference).
-        """
+        import tensorflow as tf
+        import tensorflow_probability as tfp
+
         input_dim = X_train.shape[1]
         num_classes = len(np.unique(y_train))
 
-        # Define prior and posterior
-        def make_prior_fn():
-            return tfp.distributions.Normal(loc=0.0, scale=1.0)
+        # Prior and posterior functions
+        def prior(kernel_size, bias_size=0, dtype=None):
+            n = kernel_size + bias_size
+            prior_model = tf.keras.Sequential([
+                tfp.layers.DistributionLambda(lambda t: tfp.distributions.MultivariateNormalDiag(
+                    loc=tf.zeros(n), scale_diag=tf.ones(n)))
+            ])
+            return prior_model
 
-        def make_posterior_fn():
-            return tfp.layers.DenseVariational.default_mean_field_normal_fn()
+        def posterior(kernel_size, bias_size=0, dtype=None):
+            n = kernel_size + bias_size
+            posterior_model = tf.keras.Sequential([
+                tfp.layers.VariableLayer(2 * n, dtype=dtype),
+                tfp.layers.DistributionLambda(lambda t: tfp.distributions.MultivariateNormalDiag(
+                    loc=t[..., :n],
+                    scale_diag=tf.nn.softplus(t[..., n:])))
+            ])
+            return posterior_model
 
-        # Define Bayesian neural network
-        bnn = tf.keras.Sequential([
-            tf.keras.layers.InputLayer(input_shape=(input_dim,)),
-            tfp.layers.DenseVariational(
-                units=64,
-                make_prior_fn=make_prior_fn,
-                make_posterior_fn=make_posterior_fn,
-                activation='relu'
-            ),
-            tfp.layers.DenseVariational(
-                units=num_classes,
-                make_prior_fn=make_prior_fn,
-                make_posterior_fn=make_posterior_fn,
-                activation='softmax'
-            )
-        ])
+        # Input layer
+        inputs = tf.keras.Input(shape=(input_dim,))
+
+        # Bayesian dense layer
+        x = tfp.layers.DenseVariational(
+            units=64,
+            make_posterior_fn=posterior,
+            make_prior_fn=prior,
+            activation='relu')(inputs)
+
+        # Bayesian output layer
+        outputs = tfp.layers.DenseVariational(
+            units=num_classes,
+            make_posterior_fn=posterior,
+            make_prior_fn=prior,
+            activation='softmax')(x)
+
+        # Construct model
+        model = tf.keras.Model(inputs=inputs, outputs=outputs)
 
         # Compile the model
-        bnn.compile(
-            optimizer=tf.optimizers.Adam(learning_rate=0.01),
+        model.compile(
+            optimizer=tf.optimizers.Adam(learning_rate=0.001),
             loss=tf.keras.losses.SparseCategoricalCrossentropy(),
             metrics=['accuracy']
         )
 
         # Train the model
-        bnn.fit(X_train, y_train, epochs=20, batch_size=32, validation_data=(X_val, y_val))
+        model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
 
         # Assign the trained model
-        self.model = bnn
-        return bnn
+        self.model = model
+        return model
 
     def predict_with_bayes_by_backprop(self, X, num_samples=100):
         """
@@ -197,7 +212,7 @@ class uqXModel:
 
         # Reduce to 1D using PCA
         pca = PCA(n_components=1)
-        X_pca = pca.fit_transform(X[:1000])  # Test with a subset
+        X_pca = pca.fit_transform(X)  # Test with a subset
 
         # Fit Kernel Density Estimation
         kde = KernelDensity(kernel='gaussian', bandwidth=1.0).fit(X_pca)
@@ -213,29 +228,6 @@ class uqXModel:
         plt.title("PCA-based Density Plot for MNIST Subset")
         plt.legend()
         plt.show()
-
-        # # Ensure X is a numpy array or similar
-        # if not isinstance(X, (np.ndarray, list)):
-        #     raise TypeError("Input data must be a numerical array or list.")
-        #
-        # # Reduce to 1D
-        # pca = PCA(n_components=1)
-        # X_pca = pca.fit_transform(X)
-        #
-        # # Fit Kernel Density Estimation
-        # kde = KernelDensity(kernel='gaussian', bandwidth=bandwidth).fit(X_pca)
-        #
-        # # Generate values for plotting
-        # X_d = np.linspace(X_pca.min(), X_pca.max(), 1000).reshape(-1, 1)
-        # density = np.exp(kde.score_samples(X_d))
-        #
-        # # Plot the density
-        # plt.figure(figsize=(8, 6))
-        # plt.plot(X_d, density, label='Density')
-        # plt.scatter(X_pca, np.zeros_like(X_pca), alpha=0.5, label='Data Points', color='red')
-        # plt.title(title)
-        # plt.legend()
-        # plt.show()
 
     def save_model(self, path="models/trained_model"):
         """
